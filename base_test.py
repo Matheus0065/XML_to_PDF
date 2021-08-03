@@ -10,7 +10,7 @@ class XML_TO_PDF:
         self.driver = webdriver.Chrome()
         self.url = "https://www.fsist.com.br/converter-xml-nfe-para-danfe"
 
-        self.diretorio = r'T:\CLIENTES\1 - MOVIMENTAÇÃO FISCAL\.XML_agencia_net\NF-e'
+        self.diretorio = r'C:\Users\matheus.oliveira\Desktop\NF-e'
         self.competencia = "072021"
 
         self.download = r"C:\Users\matheus.oliveira\Downloads"
@@ -40,9 +40,16 @@ class XML_TO_PDF:
                 self.driver.find_element_by_id("msgsim").click()
 
                 time.sleep(10)
-                self.driver.find_element_by_id("butlinktexto").click()
+                if self.driver.find_element_by_id("butlinktexto"):
+                    print("ELEMENTO EXISTE")
+                    self.driver.find_element_by_id("butlinktexto").click()
+
+                else:
+                    time.sleep(20)
+                    self.driver.find_element_by_id("butlinktexto").click()
 
                 time.sleep(5)
+                self.driver.refresh()
                 # SALVAR O PDF NA PASTA DA EMPRESA
                 arquivos_download = os.listdir(self.download)
                 print(arquivos_download)
@@ -55,7 +62,76 @@ class XML_TO_PDF:
                         z.extractall(fr"{diretorio_empresa}")
                         z.close()
 
-                break
+            elif len(arquivos_xmls) > 100:
+                lista_xml = []
+                print(f"MOVIMENTAÇÃO MAIOR QUE 100")
+                for _xml in arquivos_xmls:
+                    if _xml.find(".xml") >= 0:
+
+                        lista_xml.append(_xml)
+
+                        if len(lista_xml) == 100:
+                            for arquivo_xml in lista_xml:
+                                self.driver.find_element_by_id("arquivo").\
+                                    send_keys(fr"{diretorio_empresa}\{arquivo_xml}")
+
+                            self.driver.find_element_by_class_name("butenviar").click()
+                            self.driver.find_element_by_id("msgsim").click()
+
+                            time.sleep(10)
+                            if self.driver.find_element_by_id("butlinktexto"):
+                                print("ELEMENTO EXISTE")
+                                self.driver.find_element_by_id("butlinktexto").click()
+
+                            else:
+                                time.sleep(20)
+                                self.driver.find_element_by_id("butlinktexto").click()
+
+                            time.sleep(5)
+                            self.driver.refresh()
+                            # SALVAR O PDF NA PASTA DA EMPRESA
+                            arquivos_download = os.listdir(self.download)
+                            print(arquivos_download)
+                            for arquivo in arquivos_download:
+                                if arquivo.find(f"FSist") >= 0:
+                                    shutil.move(fr"{self.download}\{arquivo}", fr"{diretorio_empresa}")
+
+                                    time.sleep(3)
+                                    z = ZipFile(fr"{diretorio_empresa}\{arquivo}", 'r')
+                                    z.extractall(fr"{diretorio_empresa}")
+                                    z.close()
+
+                            lista_xml = []
+
+                for arquivo_xml in lista_xml:
+                    self.driver.find_element_by_id("arquivo"). \
+                        send_keys(fr"{diretorio_empresa}\{arquivo_xml}")
+
+                self.driver.find_element_by_class_name("butenviar").click()
+                self.driver.find_element_by_id("msgsim").click()
+
+                time.sleep(10)
+                if self.driver.find_element_by_id("butlinktexto"):
+                    print("ELEMENTO EXISTE")
+                    self.driver.find_element_by_id("butlinktexto").click()
+
+                else:
+                    time.sleep(20)
+                    self.driver.find_element_by_id("butlinktexto").click()
+
+                time.sleep(5)
+                self.driver.refresh()
+                # SALVAR O PDF NA PASTA DA EMPRESA
+                arquivos_download = os.listdir(self.download)
+                print(arquivos_download)
+                for arquivo in arquivos_download:
+                    if arquivo.find(f"FSist") >= 0:
+                        shutil.move(fr"{self.download}\{arquivo}", fr"{diretorio_empresa}")
+
+                        time.sleep(3)
+                        z = ZipFile(fr"{diretorio_empresa}\{arquivo}", 'r')
+                        z.extractall(fr"{diretorio_empresa}")
+                        z.close()
 
 
 xml = XML_TO_PDF()

@@ -1,8 +1,10 @@
 import os
 
-diretorio = r"T:\DEPARTAMENTOS\AUTOMAÇÃO\XML\NF-e"
+diretorio = r"C:\Users\matheus.oliveira\Desktop\NF-e"
 competencia = "072021"
 empresas = os.listdir(diretorio)
+
+lista_test = []
 
 for empresa in empresas:
 
@@ -13,4 +15,18 @@ for empresa in empresas:
         xmls = os.listdir(diretorio_empresa)
         for xml in xmls:
             if xml.find(".xml") >= 0:
-                print(xml)
+
+                lista_test.append(xml)
+
+                if len(lista_test) == 100:
+                    print(len(lista_test))
+                    print(lista_test)
+                    print("ADICIONAR ESSA LISTA NO FSIST...")
+                    print("BAIXANDO O ARQUIVO PDF")
+                    print("MOVENDO O ARQUIVO E EXTRAINDO")
+
+                    lista_test = []
+                    print(lista_test)
+
+        print(len(lista_test))
+        print(lista_test)
