@@ -4,7 +4,7 @@ diretorio = r"C:\Users\matheus.oliveira\Desktop\NF-e"
 competencia = "072021"
 empresas = os.listdir(diretorio)
 
-lista_test = []
+"""lista_test = []
 
 for empresa in empresas:
 
@@ -30,3 +30,9 @@ for empresa in empresas:
 
         print(len(lista_test))
         print(lista_test)
+"""
+
+test_diretorio = r"C:\Users\matheus.oliveira\Desktop\NF-e\695-COPA PRODUTOS DE LIMPEZA\072021"
+arquivo = "_JUNTO.pdf"
+
+os.rename(fr"{test_diretorio}\{arquivo}", fr"{test_diretorio}\_JUNTO_83.pdf")

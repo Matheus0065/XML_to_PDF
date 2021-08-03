@@ -40,12 +40,11 @@ class XML_TO_PDF:
                 self.driver.find_element_by_id("msgsim").click()
 
                 time.sleep(10)
-                if self.driver.find_element_by_id("butlinktexto"):
-                    print("ELEMENTO EXISTE")
+                try:
                     self.driver.find_element_by_id("butlinktexto").click()
 
-                else:
-                    time.sleep(20)
+                except:
+                    time.sleep(30)
                     self.driver.find_element_by_id("butlinktexto").click()
 
                 time.sleep(5)
@@ -64,6 +63,7 @@ class XML_TO_PDF:
 
             elif len(arquivos_xmls) > 100:
                 lista_xml = []
+                idx = 0
                 print(f"MOVIMENTAÇÃO MAIOR QUE 100")
                 for _xml in arquivos_xmls:
                     if _xml.find(".xml") >= 0:
@@ -79,12 +79,11 @@ class XML_TO_PDF:
                             self.driver.find_element_by_id("msgsim").click()
 
                             time.sleep(10)
-                            if self.driver.find_element_by_id("butlinktexto"):
-                                print("ELEMENTO EXISTE")
+                            try:
                                 self.driver.find_element_by_id("butlinktexto").click()
 
-                            else:
-                                time.sleep(20)
+                            except:
+                                time.sleep(30)
                                 self.driver.find_element_by_id("butlinktexto").click()
 
                             time.sleep(5)
@@ -101,7 +100,11 @@ class XML_TO_PDF:
                                     z.extractall(fr"{diretorio_empresa}")
                                     z.close()
 
+                                    os.rename(fr"{diretorio_empresa}\_JUNTO.pdf",
+                                              fr"{diretorio_empresa}\_JUNTO_{len(lista_xml)}({idx}).pdf")
+
                             lista_xml = []
+                            idx += 1
 
                 for arquivo_xml in lista_xml:
                     self.driver.find_element_by_id("arquivo"). \
@@ -111,12 +114,11 @@ class XML_TO_PDF:
                 self.driver.find_element_by_id("msgsim").click()
 
                 time.sleep(10)
-                if self.driver.find_element_by_id("butlinktexto"):
-                    print("ELEMENTO EXISTE")
+                try:
                     self.driver.find_element_by_id("butlinktexto").click()
 
-                else:
-                    time.sleep(20)
+                except:
+                    time.sleep(30)
                     self.driver.find_element_by_id("butlinktexto").click()
 
                 time.sleep(5)
@@ -133,7 +135,14 @@ class XML_TO_PDF:
                         z.extractall(fr"{diretorio_empresa}")
                         z.close()
 
+    def finalizando_processo(self):
+        print(50*'-')
+        print("\tPROCESSO FINALIZADO ... ENCERRANDO")
+        print(50*'-')
+        self.driver.close()
+
 
 xml = XML_TO_PDF()
 xml.navigate()
 xml.selecionar_xml()
+xml.finalizando_processo()
