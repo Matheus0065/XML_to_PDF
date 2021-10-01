@@ -1,7 +1,7 @@
 import os
 
 diretorio = r"T:\CLIENTES\1 - MOVIMENTAÇÃO FISCAL\.XML_agencia_net\NF-e"
-competencia = "072021"
+competencia = "092021"
 
 lista_empresas = os.listdir(diretorio)
 for empresa in lista_empresas:
@@ -14,6 +14,6 @@ for empresa in lista_empresas:
 
     else:
         for arquivo in lista_arquivos:
-            if arquivo.find("FSist") >= 0:
+            if arquivo.find(".xml") >= 0:
                 print(arquivo)
                 os.remove(fr"{diretorio}\{empresa}\{competencia}\{arquivo}")

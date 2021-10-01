@@ -3,17 +3,20 @@ import time
 import os
 import shutil
 from zipfile import ZipFile
+import getpass
+from datetime import date
 
 
 class XML_TO_PDF:
-    def __init__(self):
+    def __init__(self, competencia):
         self.driver = webdriver.Chrome()
         self.url = "https://www.fsist.com.br/converter-xml-nfe-para-danfe"
 
-        self.diretorio = r'C:\Users\matheus.oliveira\Desktop\NF-e'
-        self.competencia = "072021"
+        self.diretorio = r'T:\CLIENTES\1 - MOVIMENTAÇÃO FISCAL\.XML_agencia_net\NF-e'
+        self.competencia = competencia
 
-        self.download = r"C:\Users\matheus.oliveira\Downloads"
+        user = getpass.getuser()
+        self.download = rf"C:\Users\{user}\Downloads"
 
     def navigate(self):
         self.driver.get(self.url)
@@ -142,7 +145,13 @@ class XML_TO_PDF:
         self.driver.close()
 
 
-xml = XML_TO_PDF()
+# DEFINIR O PERIODO DE CONSULTA DAS NOTAS
+MES_ATUAL = date.today().month - 1
+ANO_ATUAL = date.today().year
+first_day = date(ANO_ATUAL, MES_ATUAL, 1)
+comp = first_day.strftime('%m%Y')
+
+xml = XML_TO_PDF(comp)
 xml.navigate()
 xml.selecionar_xml()
 xml.finalizando_processo()
