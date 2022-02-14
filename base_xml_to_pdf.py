@@ -5,10 +5,20 @@ import shutil
 from zipfile import ZipFile
 import getpass
 from datetime import date
+import datetime
 
 
 class XML_TO_PDF:
     def __init__(self, competencia):
+
+        # ------ Log Usuario ------ #
+        user = getpass.getuser()
+        horario = datetime.datetime.now()
+        with open(r"T:\DEPARTAMENTOS\AUTOMAÇÃO\DATABASES\Log_programs\log_sist.txt", 'a') as arquivo:
+            arquivo.write(f"XMLtoPDF | Iniciado | {user} | {horario} \n")
+
+        arquivo.close()
+
         self.driver = webdriver.Chrome()
         self.url = "https://www.fsist.com.br/converter-xml-nfe-para-danfe"
 
@@ -139,6 +149,15 @@ class XML_TO_PDF:
                         z.close()
 
     def finalizando_processo(self):
+
+        # ------ Log Usuario ------ #
+        user = getpass.getuser()
+        horario = datetime.datetime.now()
+        with open(r"T:\DEPARTAMENTOS\AUTOMAÇÃO\DATABASES\Log_programs\log_sist.txt", 'a') as arquivo:
+            arquivo.write(f"XMLtoPDF | Finalizado | {user} | {horario} \n")
+
+        arquivo.close()
+
         print(50*'-')
         print("\tPROCESSO FINALIZADO ... ENCERRANDO")
         print(50*'-')
