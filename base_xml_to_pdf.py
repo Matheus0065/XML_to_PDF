@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 import time
 import os
 import shutil
@@ -22,7 +23,11 @@ class XML_TO_PDF:
         self.driver = webdriver.Chrome()
         self.url = "https://www.fsist.com.br/converter-xml-nfe-para-danfe"
 
-        self.diretorio = r'T:\CLIENTES\1 - MOVIMENTAÇÃO FISCAL\.XML_agencia_net\NF-e'
+        # FIXME: Alternar entre os caminhos.
+
+        self.diretorio = r'T:\CLIENTES\1 - MOVIMENTAÇÃO FISCAL\.XML_agencia_net\.Saidas\NFC-e\2022'
+        # self.diretorio = r'T:\CLIENTES\1 - MOVIMENTAÇÃO FISCAL\.XML_agencia_net\.Saidas\NF-e\2022'
+        # self.diretorio = r'T:\CLIENTES\1 - MOVIMENTAÇÃO FISCAL\.XML_agencia_net\.Entradas\NF-e\2022'
         self.competencia = competencia
 
         user = getpass.getuser()
@@ -47,18 +52,18 @@ class XML_TO_PDF:
                 for _xml in arquivos_xmls:
                     if _xml.find(".xml") >= 0:
 
-                        self.driver.find_element_by_id("arquivo").send_keys(fr"{diretorio_empresa}\{_xml}")
+                        self.driver.find_element(By.ID, "arquivo").send_keys(fr"{diretorio_empresa}\{_xml}")
 
-                self.driver.find_element_by_class_name("butenviar").click()
-                self.driver.find_element_by_id("msgsim").click()
+                self.driver.find_element(By.CLASS_NAME, "butenviar").click()
+                self.driver.find_element(By.ID, "msgsim").click()
 
                 time.sleep(10)
                 try:
-                    self.driver.find_element_by_id("butlinktexto").click()
+                    self.driver.find_element(By.ID, "butlinktexto").click()
 
                 except:
                     time.sleep(30)
-                    self.driver.find_element_by_id("butlinktexto").click()
+                    self.driver.find_element(By.ID, "butlinktexto").click()
 
                 time.sleep(5)
                 self.driver.refresh()
@@ -85,19 +90,19 @@ class XML_TO_PDF:
 
                         if len(lista_xml) == 100:
                             for arquivo_xml in lista_xml:
-                                self.driver.find_element_by_id("arquivo").\
+                                self.driver.find_element(By.ID, "arquivo").\
                                     send_keys(fr"{diretorio_empresa}\{arquivo_xml}")
 
-                            self.driver.find_element_by_class_name("butenviar").click()
-                            self.driver.find_element_by_id("msgsim").click()
-
-                            time.sleep(10)
+                            self.driver.find_element(By.CLASS_NAME, "butenviar").click()
+                            self.driver.find_element(By.ID, "msgsim").click()
+                            self.driver.implicitly_wait(50)
+                            time.sleep(5)
                             try:
-                                self.driver.find_element_by_id("butlinktexto").click()
+                                self.driver.find_element(By.ID, "butlinktexto").click()
 
                             except:
                                 time.sleep(30)
-                                self.driver.find_element_by_id("butlinktexto").click()
+                                self.driver.find_element(By.ID, "butlinktexto").click()
 
                             time.sleep(5)
                             self.driver.refresh()
@@ -120,19 +125,19 @@ class XML_TO_PDF:
                             idx += 1
 
                 for arquivo_xml in lista_xml:
-                    self.driver.find_element_by_id("arquivo"). \
+                    self.driver.find_element(By.ID, "arquivo"). \
                         send_keys(fr"{diretorio_empresa}\{arquivo_xml}")
 
-                self.driver.find_element_by_class_name("butenviar").click()
-                self.driver.find_element_by_id("msgsim").click()
+                self.driver.find_element(By.CLASS_NAME, "butenviar").click()
+                self.driver.find_element(By.ID, "msgsim").click()
 
                 time.sleep(10)
                 try:
-                    self.driver.find_element_by_id("butlinktexto").click()
+                    self.driver.find_element(By.ID, "butlinktexto").click()
 
                 except:
                     time.sleep(30)
-                    self.driver.find_element_by_id("butlinktexto").click()
+                    self.driver.find_element(By.ID, "butlinktexto").click()
 
                 time.sleep(5)
                 self.driver.refresh()
@@ -164,13 +169,16 @@ class XML_TO_PDF:
         self.driver.close()
 
 
-# DEFINIR O PERIODO DE CONSULTA DAS NOTAS
-MES_ATUAL = date.today().month - 1
-ANO_ATUAL = date.today().year
-first_day = date(ANO_ATUAL, MES_ATUAL, 1)
-comp = first_day.strftime('%m%Y')
+if __name__ == '__main__':
+    # DEFINIR O PERIODO DE CONSULTA DAS NOTAS
+    # MES_ATUAL = date.today().month - 1
+    MES_ATUAL = date.today().month
+    ANO_ATUAL = date.today().year
+    first_day = date(ANO_ATUAL, MES_ATUAL, 1)
+    comp = first_day.strftime('%m%Y')
+    print(comp)
 
-xml = XML_TO_PDF(comp)
-xml.navigate()
-xml.selecionar_xml()
-xml.finalizando_processo()
+    xml = XML_TO_PDF(comp)
+    xml.navigate()
+    xml.selecionar_xml()
+    xml.finalizando_processo()

@@ -1,7 +1,7 @@
 import os
 
 diretorio = r"T:\CLIENTES\1 - MOVIMENTAÇÃO FISCAL\.XML_agencia_net\NF-e"
-competencia = "112021"
+competencia = "032022"
 
 lista_empresas = os.listdir(diretorio)
 for empresa in lista_empresas:
